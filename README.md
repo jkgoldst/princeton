@@ -4,6 +4,8 @@ A wide range of policy problems, from reducing carbon consumption to organizing 
 
 This dissertation will be submitted in partial fulfillment of the requirements for the degree of Doctor of Philosophy in the Woodrow Wilson School of Public and International Affairs, Princeton University.
 
+The latest committed version of this dissertation can be viewed [here](http://rpubs.com/tertiumquid2/dissertation)
+
 ### Bio
 
 Josh Goldstein is a PhD candidate at Princeton's Woodrow Wilson School of Public and International Affairs, and he is affiliated with the Center for Information Technology Policy.
