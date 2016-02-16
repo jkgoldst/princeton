@@ -52,8 +52,8 @@
 </ul></li>
 <li><a href="#proposed-contributions-outline">Proposed Contributions &amp; Outline</a><ul>
 <li><a href="#close-platform-experiments">CLOSE Platform Experiments</a></li>
-<li><a href="#matching-on-graph-structure-in-quasi-experimental-studies-and-policy-implications">Matching on Graph Structure in Quasi-Experimental Studies and Policy Implications</a></li>
 </ul></li>
+<li><a href="#matching-on-graph-structure-in-quasi-experimental-studies-and-policy-implications">Matching on Graph Structure in Quasi-Experimental Studies and Policy Implications</a></li>
 </ul></li>
 <li><a href="#chapter-2-close-platform-experimental-designs">Chapter 2 CLOSE Platform Experimental Designs</a><ul>
 <li><a href="#inducing-trust-and-group-identity-in-experimental-settings-experiment-1-1">Inducing Trust and Group Identity in Experimental Settings (Experiment #1)</a><ul>
@@ -130,13 +130,13 @@
 <p>This experiment involves inducing trust and group identity using the technique developed and tested in the previous experiment, as well as asking subjects to make a charitable donation after being exposed to information about their group member’s donations. When adjusted for number of exposures to group members who donate, we predict that subjects with higher levels of structural diversity will have a higher likelihood of donating.</p>
 </div>
 </div>
-<div id="matching-on-graph-structure-in-quasi-experimental-studies-and-policy-implications" class="section level4">
-<h4>Matching on Graph Structure in Quasi-Experimental Studies and Policy Implications</h4>
+</div>
+<div id="matching-on-graph-structure-in-quasi-experimental-studies-and-policy-implications" class="section level3">
+<h3>Matching on Graph Structure in Quasi-Experimental Studies and Policy Implications</h3>
 <p>Many civic and political organizations are interested in getting better at targeting individuals who are likely to take actions - voting, donating, protesting - that support their cause. Yet even though more data is available than ever before, measuring the effectiveness of a digital outreach campaign remains immensely challenging. This is because in observational studies it is difficult to distinguish the effect of exposure to the campaign from other potential confounding factors such as prior influence, homophily or common external cause. In fact, a forthcoming study from researchers at Facebook found that a naive observational estimate overstates the effect of being exposed to a URL by 320% compared to experimental estimates (Eckles and Bakshy 2014).</p>
 <p>While experiments offer a “gold standard” for the measurement of causal effect, they are rarely feasible for civic and political organizations. This study tests whether a quasi-experimental statistical technique called propensity score matching can achieve enough bias reduction for civic organizations to derive actionable insight. Propensity score matching pairs individuals that received the treatment (exposure to the campaign) with individuals that did not receive the treatment, on a set of covariates that predict receiving the treatment in question.</p>
 <p>I draw on the myPersonality dataset, which contains 7.5 million individual profiles, with socio-demographic and egocentric network statistics drawn from the Facebook Social Graph API. Therefore, the variables that we identify will be accessible, not just to researchers within Facebook, but to any researcher studying an organization that uses Facebook OAuth and asks for permission to access socio-demographic and network data.</p>
 <p>This dissertation closes with reflections on the technology policy implications of using network structure data to help spread cooperation. Network data is held almost exclusively by social network companies like LinkedIn and Facebook. Currently these companies to not appear to allow advertisers (with pro-social or commercial) to draw on network structure data to target individuals. Accessing the network graph of Facebook users, for example, is possible using the Facebook Social Graph API, but it is incredibly costly and time consuming. I explore how these companies might make network structure data available to pro-social groups without violating privacy or revealing personally identifiable information.</p>
-</div>
 </div>
 </div>
 <div id="chapter-2-close-platform-experimental-designs" class="section level2">
