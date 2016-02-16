@@ -56,7 +56,7 @@ The Facebook study conducted by Eckles and Bakshy used high-dimensional machine 
 
 ### Proposed Contributions & Outline
 
-#### CLOSE Platform Experiments
+#### CLOSE Platform Experiments (Chapter 2 and 3)
 
 With colleagues at Sandia National Labs, I will conduct two experiments on the Controlled, Online, Social Experimentation (CLOSE) platform. The CLOSE platform is built to allow rapid, online experiments on a variety of social phenomena. In the CLOSE platform, subjects can choose avatars and interact with other subjects through experimenter mediated communication channels. The experimenter can specify who a subject can interact with, and in what manner. The actual user interface varies with each experiment.
 
@@ -76,7 +76,7 @@ In the real world, individuals vary in the number of distinct social clusters th
 
 This experiment involves inducing trust and group identity using the technique developed and tested in the previous experiment, as well as asking subjects to make a charitable donation after being exposed to information about their group member's donations.  When adjusted for number of exposures to group members who donate, we predict that subjects with higher levels of structural diversity will have a higher likelihood of donating.
 
-### Matching on Graph Structure in Quasi-Experimental Studies and Policy Implications
+#### Matching on Graph Structure in Quasi-Experimental Studies and Policy Implications (Chapter 4)
 
 Many civic and political organizations are interested in getting better at targeting individuals who are likely to take actions - voting, donating, protesting - that support their cause.  Yet even though more data is available than ever before, measuring the effectiveness of a digital outreach campaign remains immensely challenging. This is because in observational studies it is difficult to distinguish the effect of exposure to the campaign from other potential confounding factors such as prior influence, homophily or common external cause.  In fact, a forthcoming study from researchers at Facebook found that a naive observational estimate overstates the effect of being exposed to a URL by 320% compared to experimental estimates (Eckles and Bakshy 2014).
 
