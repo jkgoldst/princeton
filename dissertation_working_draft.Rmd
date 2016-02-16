@@ -1,0 +1,495 @@
+---
+title: "Network Structure and Cooperation"
+author: "Joshua K. Goldstein"
+date: "February 15th, 2016"
+output:
+  html_document:
+    highlight: tango
+    theme: united
+    toc: yes
+    toc_depth: 4
+  word_document: default
+bibliography: bib1.bib
+---
+
+## Chapter 1 Introduction
+
+### Overview
+
+A wide range of policy problems, from reducing carbon consumption to organizing a neighborhood watch, are cooperation problems in the sense that they rely on individuals to engage with others in activity that may not confer benefits net costs. Finding cost effective ways to spread cooperative behavior within a population could have a significant impact for the achievement of public goods. One of the most exciting potential new sources of insight on cooperation comes from the mathematical structure of an individual's social network. Improving the theoretical and empirical understanding of the link between network structure and cooperation, and how these insights can be leveraged in the real world, is the topic of this dissertation. 
+
+As a practical example, Consider a city that wants its residents to  to adopt green infrastructure such as green roofs and permeable cement. A standard policy approach would use tax incentives to shift the cost-benefit analysis involved in this decision. However, a growing body of evidence suggests that leveraging social norms - informing subjects about the actions of others - has a larger and more consistent effect on inducing cooperation than changing the cost-benefit calculation (@kraft2015promoting). Imagine that the city's Facebook page allowed residents to give permission to the city to access their Facebook profile data, including information about their social network structure via the Facebook Social Graph API. Could using this network structure data, independently of any socio-demographic or behavioral data, help the City better discern who is likely to adopt green infrastructure? 
+
+The answer is unclear. While the theoretical link between network structure and cooperation is strong, the empirical evidence is surprisingly mixed. In fact, most of the existing online experiments find that network structure does not change the level of cooperation that is adopted in a population. I suggest that the reason for this null result is because inducing trust and group cohesion in experimental settings is extremely difficult. I suggest a technique for mitigating this problem, and conduct an experiment to test its validity. I then conduct a second experiment that places subjects in distinct network structures, and after inducing trust, tests how their decision to make a donation to charity changes based on where in their network the signal to donate comes from.
+
+I next turn to how these insights about the link betwen network structure and cooperation might be applied in the real world. Specifically, I develop and test a statistical matching technique that used clustering coefficient to decrease bias in observational studies of influence. I use the myPersonality data set, one of the largest Facebook data sets available outside of the company, and explore the practical and methodological constraints of using large-scale network data in the real world, and make tech policy recommendations for how social network companies might make this data easier to use without releasing personally-identifiable information. 
+
+### Network Structure and Cooperation
+
+There are at least two theoretical reasons to believe that different social network structures will yield different levels of cooperation. The first is the notion of conditional cooperation, made famous by the Tit-For-Tat strategy where an individual's strategy is dependent on whether others cooperate (@axelrod1981evolution). A varient of this strategy suggests that that individual's have a threshold number of exposures to induce cooperation (@watts1999small) and therefore when an individuals neighbors also interact with one another they are more likely to enforce cooperation. A second theory suggests that cooperation is contagious in the sense that a cascade of cooperation could emerge if a subject is surrounded by other cooperators. Specifically, this literature suggests a "three degree of influence" rule (@fowler2010cooperative), where an individual's decision to cooperate can influence others up to three steps away from them in a network. This suggests that in more densely clustered networks cooperation will spread more quickly.
+
+The social significance of this variation in structures has been of great interest to social scientists. For example, in a given individual's friendship graph, those friends who are not connected to any clusters tend to be the most valuable in terms of providing influence, information and opportunity (@granovetter1978threshold). Further, individual's who have structural holes or gaps between the clusters in their network gain more information benefits and autonomy (@burt2009structural). Understanding an individual's network structure is also valuable for predicting how viral contagion spreads. Researchers at Harvard measured the degree centrality of students, and monitored students that are highly central to the network compared to a control. They were able to predict flu outbreaks 18% earlier than by monitoring random students @christakis2010social. The flu is a contagion that stochastically infects some individuals then spreads from person to person.
+
+#### Randomizing Network Structure in Experimental Studies
+
+Despite this theoretical relationship, empirical evidence about the link between network structure and cooperation has been surprisingly inconclusive. Several lab experiments have randomized static network ties in a lab setting, and come to the puzzling conclusion that decreased clustering, the number of subject's friends who are connected to one another, does not increase cooperation relative to random mixing (this is distinct from dynamic networks which have been shown to induce cooperation). (@suri2011cooperation, @gracia2012heterogeneous, and @grujic2012consistent). 
+
+Each of these experiments share the following characteristics. First, they are online experiments that place subjects selected from Amazon Mechanical Turk (AMT) into a setting where networks can be randomly assigned and the alters controlled or programmed by the researchers. These network structures can range from highly clustered cliques to low-clustered random networks. Subjects then play a game with the members of their network (or random other players). In Suri and Watts, subjects play a common goods resource game designed such that social welfare is maximized when all individuals contribute the maximum amount, but players have selfish incentive to free ride on the donations of others. In Gracia-Lazaro et. al. as well as in Grujic et. al.,, subjects play a series of one-on-one Prisoner's Dilemma games where some subjects were assigned to networks where their interactions were repeated and others to random networks where they don't repeat interactions with other players. All three of these studies find that network structure does not change whether subjects cooperate or engage in self-maximizing behavior. 
+
+#### Reducing Bias in Large-Scale Observational Studies
+
+In a large scale observational study, Ugander showed that clustering coefficient, the number of friends who are connected to one another, has more predictive power than degree count in predicting whether an individual will accept an invitation to join Facebook (@ugander2012structural). This study controlled for a number of confounding variables including socio-demographic traits and other network structure measures such as Granovetter's notion of embededness or degree distribution of a neighborhood. 
+
+This finding is both exciting and problematic. It is exciting because it suggests that it is now possible to measure network structure characteristics at scale cheaply and quickly. While this study relied on special data access through Facebook Research, many of these characteristics are available to the public via the Facebook Social Graph API. This means that a non-profit or government agency seeking to spread behavior through a network may now be able to rely on more than just the coarse socio-demographic data typically available to online advertisers. 
+
+More broadly, researchers are attracted to this field not just by the newly available large data sets, but by the promise of finding simple network structure measures that are as powerful for explaining the how human behavior spreads as they are for explaining the importance of information. For example, the insight in the PageRank algorithm is that it is not the number of links a piece of information has that determines its importance, but rather the eigenvector centrality, the number of links those links have, that matter @page1999pagerank.
+
+For empirical researchers, large-scale social networks have strong appeal. Unlike lab settings, they represent the real world interactions of individuals. Unlike pre-digital era observational studies, they scale extremely well and provide granular insight into difficult to observe variables like friendship ties. However, they are not immune to the difficulties of teasing out causal effects in observational settings. In 2006, Christinakas and Fowler used an analysis of the 12,000 person Framingham Heart Study to claim that obesity is contagious (@christakis2007spread). Their study found that obese people are more likely to be friends with other obese people, and they attempted to control for confounding variables using a variety of other variables using statistical techniques. Specifically, they attempted to use a lagged independent variable for an alter's weight status to control for homophily, the formation of social ties due to matching individual traits. 
+
+However, a subsequent analysis by Shalizi and Thomas showed that "homophily and contagion are generically confounded in observational studies of social networks" (@shalizi2011homophily), and that even with the most basic assumptions it is impossible to tease out the effect of contagion from potential confounding factors such as prior influence, homophily or common external cause without randomizing friendship ties.  The Shalizi and Thomas finding shifted the field towards more concerted efforts to measure and reduce bias in large-scale observational studies. A forthcoming study from researchers at Facebook found that a naive observational estimate overstates the effect of being exposed to a URL by 320% compared to experimental estimates (@eckles2014bias). 
+
+One of the most promising techniques is propensity score matching, borrowed from the Neyman-Rubin causal model (@rubin1977assignment), which matches pairs of individuals that received the treatment (exposure to the campaign) with individuals that did not receive the treatment, on a set of covariates that predict receiving the treatment in question. Aral et. al. used propensity score matching to distinguish between contagion and homophily (@aral2009distinguishing), and found that naive models overestimate the effect by 300 - 700% compared to a propensity score model matching on demographics and geographic location. 
+
+Propensity score matching does have an important statistical limitation. For example, propensity score matching represent an upper bound of influence“unobserved and uncorrelated latent homophily and unobserved confounding factors that contribute to assortative mixing and temporal clustering may still exist” (@aral2009distinguishing).  In other words, homophily could be capturing even more of the effect of peer influence, but the finding is notable in that even under conservative estimates the effect of peer influence is dramaticall`y overstated. However, if the goal is not to remove all possible bias, but rather to reduce bias to a level that is useful for decision makers, propensity score matching may be a powerful technique. 
+
+The Facebook study conducted by Eckles and Bakshy used high-dimensional machine learning models to show that the most commonly used variables (socio-demographic characteristics) offered only a small reduction in bias when compared to a high-dimensional model adjusting to 3,700 variables available to Facebook could reduce bias by up to 70%. This finding, combined with the structural diversity model put forward by Ugander, suggests that an individual's network structure may provide a promising set of variables for reducing bias when trying to measure the effect of a policy intervention in observational settings.
+
+### Proposed Contributions & Outline
+
+#### CLOSE Platform Experiments
+
+With colleagues at Sandia National Labs, I will conduct two experiments on the Controlled, Online, Social Experimentation (CLOSE) platform. The CLOSE platform is built to allow rapid, online experiments on a variety of social phenomena. In the CLOSE platform, subjects can choose avatars and interact with other subjects through experimenter mediated communication channels. The experimenter can specify who a subject can interact with, and in what manner. The actual user interface varies with each experiment.
+
+##### Inducing Trust and Group Identity in Experimental Settings (Experiment #1)
+
+One of the fundamental challenges of conducting network structure experiments is the difficulty of randomizing network characteristics. While it is relatively trivial to assign individuals to a group in an online setting, none of the studies described above seek to induce a sense of trust and group identity in the assigned network group. This overlooks the theory and empirical findings that social norms only induce cooperation in settings where trust and group identity are present (@ariely2009doing, @costa2013energy). Without such trust in place, the social norm being transmitted through the network is likely to be not motivating to the subject. 
+
+In chapter 2, I design and execute an experiment with colleagues from Sandia National Labs to see whether trust and group identity can be induced through interaction in a specific game called a coordination game. In a coordination game, two or more people must coordinate their actions to reach (avoid) a mutually advantageous (disadvantageous) outcome; however, there is more than one combination of actions that results in a positive outcome.  These coordination games require participants to trust their group members to understand the game and cooperate with one another by choosing the option that will be most advantageous to all group members. At least one study (@yamagishi2005separating) has shown that cooperation leads to trust.  We want to further explore how cooperation in the coordination game also strengthens group identity.  
+
+In this experiment we use the following definition of trust: "a psychological state comprising the intention to accept vulnerability based upon the positive expectations of the intentions of behaviors of another" (@rousseau1998not). In order to have trust, risk and interdependence must exist.  The act of cooperating and taking a risk can be the result of trust or the cause of trust.  The willingness of people to trust one another is strengthened through repeated cycles of exchange, risk-taking, and through expectations being met.  Sharing a common fate is another factor that increases cooperation.  It also increases in-group bias and out-group discrimination (@commonfate).  Trust has been measured in Prisoner’s Dilemma type games but there is no evidence evidence of trust being explicitly measured in this coordination game.
+
+While there have been several studies using the coordination game, none that we have found have specifically studied group identity. Thus, we intend to study this. The coordination game is a simple game with analogues to real-world coordination tasks (i.e., high reward when subjects work together). By showing that it can induce group identity we can use this as a mechanism for inducing group identity in future experiments.
+
+##### The Effect of Clustering on Cooperative Behavior (Experiment #2)
+
+In the real world, individuals vary in the number of distinct social clusters that exist within their social lives.  Some of us stay close to home and have a single tight knit group of friends who know one another, while others travel far, frequently switch jobs, and run in many different social circles. In this second CLOSE Platform experiment, we test the hypothesis than an individual is more likely to adopt a behavior if cues for this behavior come from distinct, disconnected components of her social graph (i.e., different social clusters), rather than from a single cluster. This is related to the "local clustering coefficient” of an individual, which in graph theory measures the proportion of connections amongst neighbors of node i compared with the number of all possible connections of node i (@watts1998collective). Researchers have identified local clustering coefficients as a strong predictor of behavior adoption in large scale social networks (@ugander2012structural). 
+
+This experiment involves inducing trust and group identity using the technique developed and tested in the previous experiment, as well as asking subjects to make a charitable donation after being exposed to information about their group member's donations.  When adjusted for number of exposures to group members who donate, we predict that subjects with higher levels of structural diversity will have a higher likelihood of donating.
+
+#### Matching on Graph Structure in Quasi-Experimental Studies and Policy Implications
+
+Many civic and political organizations are interested in getting better at targeting individuals who are likely to take actions - voting, donating, protesting - that support their cause.  Yet even though more data is available than ever before, measuring the effectiveness of a digital outreach campaign remains immensely challenging. This is because in observational studies it is difficult to distinguish the effect of exposure to the campaign from other potential confounding factors such as prior influence, homophily or common external cause.  In fact, a forthcoming study from researchers at Facebook found that a naive observational estimate overstates the effect of being exposed to a URL by 320% compared to experimental estimates (Eckles and Bakshy 2014).
+
+While experiments offer a "gold standard” for the measurement of causal effect, they are rarely feasible for civic and political organizations. This study tests whether a quasi-experimental statistical technique called propensity score matching can achieve enough bias reduction for civic organizations to derive actionable insight. Propensity score matching pairs individuals that received the treatment (exposure to the campaign) with individuals that did not receive the treatment, on a set of covariates that predict receiving the treatment in question.  
+
+I draw on the myPersonality dataset, which contains 7.5 million individual profiles, with socio-demographic and egocentric network statistics drawn from the Facebook Social Graph API. Therefore, the variables that we identify will be accessible, not just to researchers within Facebook, but to any researcher studying an organization that uses Facebook OAuth and asks for permission to access socio-demographic and network data. 
+
+This dissertation closes with reflections on the technology policy implications of using network structure data to help spread cooperation. Network data is held almost exclusively by social network companies like LinkedIn and Facebook. Currently these companies to not appear to allow advertisers (with pro-social or commercial) to draw on network structure data to target individuals. Accessing the network graph of Facebook users, for example, is possible using the Facebook Social Graph API, but it is incredibly costly and time consuming. I explore how these companies might make network structure data available to pro-social groups without violating privacy or revealing personally identifiable information. 
+
+## Chapter 2 CLOSE Platform Experimental Designs
+
+### Inducing Trust and Group Identity in Experimental Settings (Experiment #1)
+
+#### Design
+
+This experiment explores the following: (a) whether or not group identity can be induced from cooperation in a coordination game, (b) whether or not trust is built between group members in a coordination game, (c) whether there are differences in trust between a single group with no competition and two groups competing against one another.  A second use of this research is to develop a method to induce group identity in subjects for further experiments. In particular, this preceeds second experiment studying social influence – one of the prerequisites for that experiment is inducing group identity. If this experiment shows that the coordination game is useful for that purpose, we can use this as a means of inducing group identity.
+
+The coordination game we are using is a strategic representation of John Bryant’s (1983) Keynesian coordination (@van1990tacit) .This game is designed so that all players have an invested interest in the highest minimum, but there is a penalty for an individual who chooses a number higher than the group minimum (@bornstein2002effect).  Participants will have to take risks and are dependent on their fellow group members, which should build trust between group members if their expectations are fulfilled (in the form of coordinating their actions to receive points in the game), and all group members have a common fate, to an extent.
+
+![Figure 1: The Payoff Matrix Used in (@van1990tacit)](https://monosnap.com/file/2zzwmhs9ZQQrAlqQH0nRGqinB5OYR6.png)
+
+Huych et. al. states that people have different rules that guide their behavior.  With regard to the coordination game, (@van1990tacit) name ‘payoff dominance’ and ‘security’ as the two main rules which guide participants’ choices.  If they are operating under the rule of security, then they will pick 1 because it is the highest payoff without any risk; it is the least risky option, therefore, the most secure option.  The farther your number is from the minimum chosen by your group, the lower your payoff will be, by choosing 1, the player establishes the minimum so they cannot lose points for being higher than the minimum another member might choose, but they also sacrifice their potential of obtaining the most points.  If Person A picks 1, but all other members pick 7 (because they are operating under the payoff dominance rule), then Person A gets 70 points, while everyone else only gets 10 points.  By picking 1, a player knows they will always receive 70 points -- they cannot receive less.  Picking any number other than 1 results in uncertainty because you do not know what your other group members will pick.  Mutual trust is required between teammates to coordinate at the top by making the risky choice of 7 rather than the secure choice of 1.  If they are playing under the self-defined rule of payoff dominance, they will pick 7 and trust that their group members will do the same, since all choosing 7 would result in the highest payoff.  Through multiple rounds, players have to learn how to coordinate their actions without direct contact.
+
+![Figure 2: The results of one of the experiments showing the distribution of numbers picked throughout the rounds.](https://monosnap.com/file/oKXQ3xRuMdBPQ3TacqKLsMI1sKtZPK.png)
+
+In all of the various experiments and conditions run in Huyck et. al., the minimum number picked for the first round was never larger than 4.  In the figure above, it shows participant’s chose a smaller number if their previous choice was larger than the group minimum because their payoff decreases the farther away their choice is from the minimum.  These experiments showed most people choose the secure option and moved their choice toward 1.  It only takes 1 or 2 participants to think it is too risky to choose a large number and force all the other members of their group to move to their choice of 1.
+
+![Figure 3: The payoff matrix used in the experiment described below. Participants are not penalized for choosing a number higher than the minimum.](https://monosnap.com/file/eZt26DckuZlo0Pxjd6DSu20CfDjSRe.png)
+
+In another set of experiments by Huyck et. al., the payoff matrix was altered so that the minimum chosen by the group no longer affected the points each individual received.  The payoff matrix for this version is shown below.  In this condition, groups quickly converged on the most efficient outcome (@van1990tacit) because their payoff no longer depended on the actions of their group members so they no longer need to pick the secure choice of 1.  After playing under this payoff matrix, the same participants played the game under the original payoff matrix in which their points are reduced the farther they are from the group minimum.  This set of results showed participants converging on 1 again, even after learning in the previous condition that 7 is the most efficient outcome.  Since they must rely on their fellow group members again, security becomes a driving force and lowers the minimum because that is the safest option.  Each player wants to match the minimum chosen in their group, which makes 1 the safest option (@bornstein2002effect).
+
+Another condition in this set investigated how the outcome of the game is affected by group size.  Uncertainty should increase as the number of players increases.  In this condition, groups were dropped to 2 people, results show that the majority of the 2-person groups did converge on 7, the most efficient outcome.  These 2-person groups were run in a game in which they had to same partner for repeated rounds and another set of 2-person groups were run in which they had a new partner each round.  Over time, with the same partner, participants converged on 7.  The randomly paired groups showed that players rarely converged on 7 after repeated rounds with different partners.  These results imply that trust is built through repetition with the same partners since those subjects converged on 7, but the random partners were unable to build trust and did not converge on 7, the most efficient outcome (@van1990tacit).  However, these experiments did not explicitly measure trust, we plan to measure trust.
+
+A last condition was tested with larger groups (>10) and monitoring, meaning, instead of just receiving the group minimum after each round, participants see what every member of the group chose after each round.  This resulted in members still converging on the secure outcome of 1, but the group coordinated their actions much more quickly.  They learned to cooperate with each other faster (@van1990tacit).
+
+Research has shown that in single group settings, there is often a failure for groups to coordinate their actions on the most efficient outcome (i.e., groups converge on 1 rather than 7).  This study investigates how introducing competition into the scenario will affect the outcome of the game.  In a single group game, the higher the minimum, the greater the payoff; in a game with 2 groups competing against each other, the group with the highest minimum wins.  The losing group receives no points, this motivates people to coordinate their actions toward the payoff dominant choice of 7.  Results showed that intergroup competition in this game pushed people toward the most efficient outcome of 7 instead of converging on 1.  One was no longer a safe option because the group with the smallest minimum lost and received no points.  The more secure option then became 7 (@bornstein1994cooperation).  In an intergroup competition game, participants reported that they were more highly motivated to maximize the collective gain for their group and less motivated to simply increase their own personal gain (@bornstein1994cooperation).  This leads us to believe that the competition will increase participants’ feelings of group identity.
+
+Researchers have shown repeatedly that group identity can be induced in an online setting merely by the similarity of avatars (@kim2009cyber, @kim2010balancing, @kim2011two).  These studies found that the more similar the avatar a participant’s group members to the avatar of the participant, the stronger the feelings of group identity.  We know group identity can be induced in an online setting, we are investigating how the coordination game will influence feelings of group identity.
+
+Trust and group identity will be measured through two different questionnaires.  Trust questions were adapted from (@kim2011two).  The wording of the questions has been tweaked so they are appropriate with the tasks being evaluated in this study.  These questions were validated in the study and show a Cronbach’s alpha of .90. (@kim2011two)  The group cohesion questions (also referred to as group identity questions) were partially modified from  (@prentice1994asymmetries) a study in which they were validated.  The first four were adapted to fit the topic of our study.  Of those four, the first two have an alpha of .85 and the last two have an alpha of .80.  The last four questions in the group identity section were written by us but inspired by these studies and developed to answer specifically what we are investigating; group identity.  We will run a factor analysis on these questions to validate them.
+
+#### Hypothesis
+
+We want to determine: (a) determine whether or not group identity can be induced from cooperation in a coordination game, (b) whether or not trust is built between group members in a coordination game, and (c) ascertain the differences in the two previous objectives between a single group with no competition and two groups competing against one another. 
+
+  We have two control conditions (C1 & C2) and two experimental conditions (E1 & E2), which are more fully described in the Study Design & Methodology section below.
+
+Specific hypotheses:  
+H1: Participants in C2 will allocate more points to their group members (score higher on group identity questionnaire) than participants in C1.   
+H2: Participants in E1 and E2 will allocate significantly more points to their group members (score higher on group identity questionnaire) than participants in C1 and C2.  
+H3: Participants in E2 will allocate more points to their group members (score higher on group identity questionnaire) than participants in E1, but the difference will not be statistically significant.  
+H4: Participants in E2 will coordinate at the highest payoff.  
+H5: Participants in E1 will coordinate at the lowest payoff.  
+H6: Participants in E2 will score higher on the trust questionnaire than participants in E1, but the difference will not be significant.  
+H7: Participants in E1 and E2 will score significantly higher on trust questionnaire then participants in C1 and C2.  
+
+#### Experimental Design
+
+This study will test to what extent group identity can be induced from participation in a coordination game.  In the coordination game players choose a number between 1 and 7 (inclusive) in each of 10 rounds. After every round the player will get a payoff that is determined by their choice and the choices of other players. The closer your choice is to the smallest number over the entire group, and how large the number is, increase the payoff.
+
+For example, if you pick 3, and the smallest number out of all the group is 3, your pay would be 90 (using the payoff matrix described below). However, if you pick 7, and the smallest number out of all the group is 3, your payoff would be 50. Finally, if you pick 7, and the smallest number out of all the group is 7, the payoff is 130 (which is the maximum). 
+
+Clearly there is an incentive for all players to choose the same number, and for that number to be the highest number possible. However, players may be inclined to choose a safer option since they are uncertain of what their group members will pick.
+
+In a two-group game in which groups are competing against each other, the group with the highest minimum wins and receives rewards according to the payoff matrix and the group with the lowest minimum receives no reward for that round.  For example, if the smallest number in Group A is 3 and the smallest number in Group B is 4, Group B wins that round because they have the highest minimum.
+
+In each of the conditions there will be 1 real subject – the rest of the group will be composed of computer controlled avatars.
+We will have two control conditions and two experimental conditions.  Control 1 (C1) will be composed of one group of 1 subject and 7 computer controlled agents.  Control 2 (C2) will be composed of two groups. One group will contain the subject and 7 computer controlled agents, and the second group will consist of 8 computer controlled agents.  Both control conditions will first be introduced to their group members (C2 will also be introduced to the out-group members).  By introduced, we mean they will see all their group members (and out-group) avatars.  Following the introduction all will complete an individual task, but their group members will still be visible on the screen.  The task will be reading neutral news articles and answering a series of questions to ensure they read the article and are participating appropriately in the task for approximately the same amount of time it takes the experimental condition participants to complete their group task (so they are exposed to their group members for the same amount of time, even though the control condition participants are not directly interacting with their group members).  They will not see how their group members answered the questions or how out-group members answered the questions, that would create a manipulation which we do not want.  These control conditions will allow us to account for the effect merely being grouped together has on group identity with no further manipulation or interaction.  As well as any effects the presence of an out-group has on group identification, even when there is no inter- or intra- group interaction.
+
+Control participants will be paid $2.60 at the end of the experiment for their participation.
+
+We will have two experimental conditions as well.  Experimental 1 (E1) will consist of one group of 1 subject and 7 computer controlled agents .  Experimental 2 (E2) will consist of two groups. One group will contain the subject and 7 computer controlled agents, and the second group will consist of 8 computer controlled agents.   Both of these groups will complete the same tasks.  First, participants will be introduced to their group members (E2 will also be introduced to the out-group members).  Next, both conditions will participate in a group coordination game.  They will be given the instructions and a short quiz to ensure they understand the instructions.  E2 will introduce competition into the equation.  The two groups will be competing against each other in a coordination game, which will increase the interdependence of the participant and their group members.
+
+For enhanced readability, all screens are presented in a separate document “ExpDescriptionWithScreens.docx”.
+
+After 10 rounds of the coordination game, participants will first complete a trust questionnaire to determine whether or not the game increased trust among group members.  Then participants in all conditions will complete a group identity questionnaire and an allocation task in which they allocate a given number of points to their group members and to oneself.  
+
+The computer controlled agents in conditions E1 and E2 will have algorithms that determine their behavior. Specifically, we will use the results from previous work on the coordination game (@bornstein2002effect) to develop a realistic behavior for the agents.
+
+#### Participant Experience During Experiment
+
+##### Instructions for E1
+
+This is an experiment on group decision-making.  Your earnings will depend on your own decision and the decisions of your group members.  You need to work with the other members of your group in order to maximize your payoff and the payoff for your group without direct communication.  You will only be able to see the numbers they choose.  You will be paid in cash through Amazon Mechanical Turk at the end of the experiment.  Please read the instructions carefully and complete the short quiz at the end to ensure you fully understand how the game is played.  The more points you earn during the game, the more money you will be paid at the end of the experiment.
+
+The rules: The experiment consists of 10 rounds.  You have been put into a group with 7 other people.  These are the people you will be playing with for all 10 rounds.  Each member of your group has to choose a number from 1 to 7 {1, 2, 3, 4, 5, 6, 7} on each of the 10 rounds.  In each round, the smallest number chosen in your group will be identified.  The larger the minimum number of your group is, the higher the group payoff will be.  Your payoff is determined according to the following payoff table:
+
+![Figure 4: Group E1 Payoffs](https://monosnap.com/file/Wl6fMgEctT21AyJftvv0VvucukDAJf.png)
+
+Let us explain the table: Your points in each round depend on your own choice (indicated by the first column of the table “Your decision” 7, 6, …1) and the smallest number chosen in your group, including your number from 1 to 7; the smallest number can range from 1 to 7.  Your points are determined by the cell in the row of your decision and the column of the smallest number in your group.  An example is given below.
+In the table there are cells with “-“.  This indicates that a combination of your choices and the smallest chosen number in your group is not possible.  For example, if your decision is 4, the smallest number in your group cannot be 7, 6, or 5.
+Examples:
+--You chose 3 and the smallest number in your group was 3, you win 90 points (row “3” and column “3”
+--You chose 5 and the smallest number in your group was 3, you win 70 points (row “5” and column “3”
+--You chose 5 and the smallest number in your group was 4, you win 90 points (row”5” and column “4”)
+--You chose 4 and the smallest number in your group was 1, you win 40 points (row “4” and column “1”)
+--You chose 3 then the smallest chosen number of your group cannot be 4 (there is a “-“ in row “3” and column “4”)
+--You chose 7 and the smallest number in your group is 4, your points are ____
+Information following each round: Following each round you will be informed about the smallest number of your group, the number each of your group members chose, your own payoff for that round, and your accumulated payoffs for the rounds completed so far.  We will also remind you of your own choice.
+Computer screen: On the middle of the screen you will find 7 buttons labeled from 1 to 7.  You can indicate your choice by clicking one of the buttons.  You will then be asked whether you “are sure” about your choice.  If you hit “yes”, that will be your final choice for that round.  If you hit “no”, you will return to the window to make your choice again.  After you have made your decision, please wait until all you other group members have completed their choices.
+At the top of your screen, you will find the results of the current round with your decision, the smallest number chosen in your group, the number chosen by each member of your group, your payoff for that round, and the cumulative payoffs in the rounds completed so far, as well as the number you chose.
+Payments: You will be paid between $1.00 for participating in this task, plus a reward based on how many points you earn during the game.  The more points you earn during the game, the higher your payoff will be after completion of the task. Every 10 points is worth 2 cents. For example, if you earn 1300 points, then you will be rewarded with $2.60, on top of the HIT reward of $1.00, thus your total earning for this task would be $3.60.
+
+##### Instructions for E2
+
+This is an experiment on group decision-making.  Your earnings will depend on your own decision, the decisions of your group members, and the decisions of the other group.  You need to work with the other members of your group in order to maximize your payoff and the payoff for your group without direct communication.  You will only be able to see the numbers they choose.  You will be paid in cash through Amazon Mechanical Turk  at the end of the experiment.  Please read the instructions carefully and complete the short quiz at the end to ensure you fully understand how the game is played.
+The rules: The experiment consists of 10 rounds.  Participants in this experiment have been divided into two groups of 8 people.  These groups will stay the same for all 10 rounds of the experiment.  Each participant has to choose a number from 1 to 7 {1, 2, 3, 4, 5, 6, 7} in each of the 10 rounds.  In each round the smallest number chosen in each group will be identified.  Your payoff depends upon your own choice, the smallest number chosen by your group, and the smallest number chosen by the other group.  More specifically, the group with the smaller of the two smallest numbers wins 0 points, while the groups with the larger of the smallest numbers wins points according to the table below.  In case of a tie, the payoff table will be split evenly, with each cell being divided by 2.  The higher minimum wins. The larger the minimum number of your group, the higher the group payoff will be.
+
+![Figure 5: Group E2 Payoffs](https://monosnap.com/file/MAhcXdv3pSGvyXocPOLitxIlUb6quX.png)
+
+Let us explain the table.  If the smallest number in your group is higher than that of the other group, your points in each round depend on your choice (indicated by the first column of the table “Your decision”, 7, 6, …1) and the smallest number in your group, including your number, (indicated by the first row of the table 7, 6, …1).  Since your choice can be a number from 1 to 7, the smallest number can range from 1 to 7.  Your points are determined by the cell in the row of your decision and the column of the smallest number in your group.  An example is given below.
+In the table there are cells with “-“.  This indicates that a combination of your choices and the smallest chosen number in your group is not possible.  For example, if your decision is 4, the smallest number in your group cannot be 7, 6, or 5.
+Remember that if both groups have the same smallest number then the cell which determines your payoff is divided by 2.  If the smallest number chosen in your group is smaller than that of the other group, you will win 0 points.  The highest minimum number wins.
+Examples:
+If the smallest number in your group is less than the smallest number in the other group:
+--You chose 3 and the smallest number in your group was 3, you win 90 points (row “3” and column “3”)
+--You chose 5 and the smallest number in your group was 3, you win 70 points (row “5” and column “3”)
+--You chose 5 and the smallest number in your group was 4, you win 90 points (row “5” and column “4”)
+You chose 4 and the smallest number in your group was 1, you win 40 points (row “4” and column “1”)
+--You chose 3 then the smallest chosen number of your group cannot be 4 (there is a “-“ in row “3” and column “4”)
+--You chose 7 and the smallest number in your group is 4, your points are 70.
+
+If the smallest numbers in both groups are the same and:
+--You chose 5 and the smallest number in both groups is 4, you win 45 points (row “5”, column “4”, points 90/2)
+--You chose 4 and the smallest number in both groups is 1, you win 20 points (row “4”, column “1”, points 40/1
+--You chose 6 and the smallest number in both groups is 3, you win 10 points
+Information following each round: Following each round you will be informed about the smallest number of your group, the number each member of your group picked, the smallest number in the other group, your own payoff, and your accumulated payoffs in the rounds completed so far.  We will also remind you of your own choice.
+Computer screen: On the middle of the screen you will find 7 buttons labeled from 1 to 7.  You can indicate your choice by clicking one of the buttons.  You will then be asked whether you “are sure” about your choice.  If you hit “yes”, that will be your final choice for that round.  If you hit “no”, you will return to the window to make your choice again.  After you have made your decision, please wait until all your other group members have completed their choices.
+At the top of your screen, you will find the results of the current round with your decision, the smallest number chosen in your group, the number chosen by each member of your group, the smallest number chosen in the other group, your payoff for that round, and the cumulative payoffs in the rounds completed so far, as well as the number you chose.
+Payments: You will be paid between $1.00 for participating in this task, plus a reward based on how many points you earn during the game.  The more points you earn during the game, the higher your payoff will be after completion of the task. Every 10 points is worth 2 cents. For example, if you earn 1300 points, then you will be rewarded with $2.60, on top of the HIT reward of $1.00, thus your total earning for this task would be $3.60.
+
+#### Measuring Trust, Group Cohesion and Socio-Demographic Characteristics
+
+We will collect the subjects game responses (what numbers they chose) and answers to several questionnaires:
+
+Trust questions were adapted from Juvina et al. (@juvina2013reciprocal).  The wording of the questions has been tweaked so they are appropriate with the tasks being evaluated in this study.  These questions were validated in the Juvina et al. study and show a Cronbach’s alpha of .90. 
+The group cohesion questions (also referred to as group identity questions) were partially modified from Prentice et al. (@prentice1994asymmetries), a study in which they were validated.  The first four were adapted to fit the topic of our study.  Of those four, the first two have an alpha of .85 and the last two have an alpha of .80.  The last four questions in the group identity section were written by us but inspired by these studies and developed to answer specifically what we are investigating; group identity.  We will run a factor analysis on these questions to validate them.
+
+Trust Questions: (modified from @juvina2013reciprocal):
+
+1.  How satisfied are you with the overall outcome of the game?
+1-very dissatisfied
+2-somewhat dissatisfied
+3-neutral
+4-somewhat satisfied
+5-very satisfied
+2.  How well do you feel your group members cooperated with each other?
+1-very poorly
+2-somewhat poorly
+3-neutral
+4-somewhat well
+5-very well
+3.	How trustful are you of your group members?
+1-very distrustful
+2-somewhat distrustful
+3-neutral
+4-somewhat trustful
+5-very trustful
+4.	How well do you feel you cooperated with your group members?
+1-very poorly
+2-somewhat poorly
+3-neutral
+4-somewhat well
+5-very well
+5.	How trustful of you do you think your group members are?
+1-very distrustful
+2-somewhat distrustful
+3-neutral
+4-somewhat trustful
+5-very trustful
+
+
+Group Cohesion Questions: 
+
+1.	How important is belonging to this group to you?    
+a.	Not at all important, neutral, very important      
+2.	To what extent do you feel attachment to this group?    
+a.	No attachment, moderate attachment, much attachment        
+3.	How close do you feel to other members of your group?    
+a.	Not at all close, moderately close, very close      
+4.	How many members of your group have influenced your thoughts and behaviors?    
+a.	None, some, most    
+5.	How closely to you identify with the other members of your group?    
+a.	Not at all, moderately, very    
+6.	Is the welfare of your group more or less important than your individual welfare?    
+a.	Significantly more, slightly more, neutral, slightly less, significantly less    
+7.	How important is it to you that your group as a whole benefited greatly?   
+a.	Not important, somewhat important, important, very important    
+8.	On a scale form 1 to 10, please rate how closely attached you felt to your group throughout the game. (1 being not at all attached, 10 being extremely attached)    
+
+Demographic questions:
+
+a.	What age are you? (answer options will be age ranges). 0-17, 18-25, 26-35, 36-45, 46-55, 56-65, 65+  
+b.	What is your household income? (answer options will be in ranges). Less than $25,000, $25,000-$49,999, $50,000-$74,999, $75,000-$99,999,$100,000-$124,999, $125,000-$194,999, Greater than $150,000  
+c.	What is your gender?  
+d.	What is the highest level of education completed in your household?  
+e.	What type of device are you using to complete this task? (answer will range from tablet to desktop computer).  
+f.	How big is the screen of the device you are using to complete this task? (answer choices will be standard screen sizes)  
+
+##### Subject Pool and Recruitment
+
+The subject pool will be workers active on Amazon Mechanical Turk. Subjects should have a “task completion rate” of greater than 95%, which is a standard criteria when submitting tasks to AMT. Participation in the experiments is voluntary and participants may drop out at any time. Participants must be at least 18 years old and US residents (as self-identified by subjects).
+
+Exclusion criteria 1: Subject is not a US resident (as judged by Amazon Mechanical Turk, which requests workers to indicate country of residence and to provide a social security/tax identification number if they are US residents); 2: Subject has a lower than 95% task completion rate – this is to prevent workers who do tasks rapidly and without thought.  Exclusion criteria 3: Participant is less than 18 years old.
+
+Recruitment will be entirely through Amazon Mechanical Turk.  A “Human Intelligence Task” (HIT) will be posted and responses requested.  The content of the HIT, and the survey instrument, will be provided for approval to the HSB for each experiment. Subjects will be compensated approximately 1-3 dollars for their participation – based on their performance in the game.
+
+We will limit the number of responses, so we cannot have too many potential subjects. If we have too few subjects we will consider stopping the experiment and modifying the design to make it simpler and to get more subjects. 
+
+#### Risks and Risk Mitigation
+
+Limited risks. One risk is that demographic information, AMT ID, IP Addresses, and answers to questionnaires are revealed to the general public.  The AMT ID and IP Addresses are only maintained in the raw data set which will not be distributed. The sanitized data set (stripped of AMT ID and IP Address and replaced with a unique study ID) will be used for analysis.
+
+To mitigate the risk of a potential breach of confidentiality: the full data set (including demographic questions and the Amazon Mechanical Turk ID) will only be stored on Sandia work machines (which are on the network) in which the hard drives will be encrypted.  Data to be provided to Princeton University will be stripped of identifying information (e.g., the Amazon Mechanical Turk ID, and the IP address) and will only contain the answers to the questions.  We will use a randomly generated string as a study ID for each participant.  An example string is: eaec53ee-cbf7-11e4-8731-1681e6b88ec1 (technically, we are generating a UUID: http://en.wikipedia.org/wiki/Universally_unique_identifier). The stripped data set will be used for any analysis at Sandia or elsewhere.
+
+#### Data Management
+
+All the data will be maintained on computers with standard Sandia access protection.  In addition, all data will be backed up to a remote server which is subsequently backed up to tape, per Sandia policy.  The records will also be stored on longer-term tape backups owned and operated by Sandia  for the purposes of data archiving.  While the PI is in his current center he will maintain all files on his encrypted laptop, which will be backed up as per Sandia policy.  When the PI leaves Sandia, he will place the files on an encrypted hard disk and discuss with his manager the disposition of the data (i.e., who will take care of the data after him).  The hard disk and password to the encryption will be shared with his manager.  The hard disk will be marked indicating that it contains human subject data and thus should not be destroyed.  All possessors of the data (starting with the PI, and his successors) will notify the HSB that they have the data, and thus the 75 year retention requirement can be met by a long chain of Sandians who own the data, as well as the long term tape storage backup that will be maintained.
+
+#### Expected Outcomes and Measurement
+
+We anticipate that the experimental groups will report higher levels of group identification and higher levels of trust between group members than the control groups.
+
+We will use a linear regression model using average of group identity questions as the IV and performance as the DV. Our forms of performance (DV) include 1. overall points earned; 2. Difference between total points possible – total points earned (higher values = poorer performance); 3. Average of the difference between points possible – points earned for each round (this is a repeated measures test).
+
+Second, we test whether there a difference between the control group and experimental groups regarding group identity. We use an ANOVA test, Category is group type, group identity. (3 & 4) Hypothesis tested: Same as 1 and 2 but use trust as the IV. Before conducting the tests: Calculate the summary statistics for the performance measures and questions for group identity and trust. Look at the distribution for group identity average scores and trust average scores. They should have some spread to them, close to normal distribution. If they don’t, we may need to use the sum instead of the average.
+
+### Network Clustering and Cooperation (Experiment #2)
+
+Interdisciplinary literature suggests that in a variety of contexts, social networks interact with individual motivation to play a role in the decision of whether or not to participate in collective action (@centola2007cascade, @mcadam1993specifying). Social psychologists posit that networks exhibit direct influence on participation either through a concern for reputation (@gerber2009descriptive) or by evoking a desire for fairness towards other group members (Gould 1993). However, despite significant advances in our understanding of the mathematical properties of networks, there is little understanding of which specific network features are triggers for participation.
+
+In the real world, individuals vary in the number of distinct social clusters that exist within their social lives.  Some of us stay close to home and have a single tight knit group of friends who know one another, while others travel far, frequently switch jobs, and run in many different social circles.  
+
+Our hypothesis is that in real world networks, an individual is more likely to adopt a behavior if cues for this behavior come from distinct, disconnected components of her social graph (i.e., different social clusters), rather than from a single cluster. This is related to the “local clustering coefficient” of an individual, which in graph theory measures the proportion of connections amongst neighbors of node i compared with the number of all possible connections of node i (@watts1998collective). 
+
+Holding constant individual motivation and the number of friends who adopt a behavior, individuals with lower clustering coefficients are more likely to participate in collective action. We use the term “Structural Diversity” to refer to the number of distinct social clusters an individual is in.
+ 
+The theoretical notions of reputation and fairness are both drivers of this hypothesis. Individuals with low local clustering coefficients receive signals from multiple groups. This implies a behavior is more likely to spread, which in turn ensures the individual that participation is more likely to be fair and their efforts will not be wasted. Second, if there is a recognized norm for participation in collective action, exposure to multiple distinct norms is more likely to lead to social pressure to adhere to this norm.  Notably, individuals must perceive themselves as part of the groups in question in order for these reputation and fairness mechanisms to exert influence on decision-making. 
+
+Researchers have identified local clustering coefficients as a strong predictor of behavior adoption in large scale social networks (@ugander2012structural) and high-quality quasi-experimental studies have supported the claim that peer influence is over-estimated by as much as 300 – 700% and that  homophily explains over 50% of the perceived behavioral contagion (@aral2009distinguishing)
+
+Yet even with quasi-experimental methods that attempt to capture potential confounders, homophily and peer influence are impossible to fully distinguish in observational settings (@shalizi2011homophily).
+
+In this study, we seek to isolate the effect of network structural diversity by randomizing social network structure in an online experimental setting. We use Amazon Mechanical Turk, a platform that has been shown to have representative samples of the overall U.S. population, and affords practical advantages around subject identifiably and prescreening (@paolacci2010running).  
+
+#### Group Identity
+
+An important element of our experiments is inducing a sense of group identity among the participants. To establish this, we will take two approaches. The first is to increase the visual similarity of in-group subject avatars. Previous research (Kim 2009) has shown this can increase feelings of group identity. 
+
+The second approach is to use “coordination games”. In a coordination game, two or more people must coordinate their actions to reach (avoid) a mutually advantageous (disadvantageous) outcome; however, there is more than one combination of actions that results in a positive outcome.  These coordination games require participants to trust their group members to understand the game and cooperate with one another by choosing the option that will be most advantageous to all group members. (@yamagishi2005separating) showed that cooperation leads to trust. 
+
+Chen and Li (@charness2006individual) revealed that, after playing Prisoner’s Dilemma-like games with intergroup competition, participants allocated more points to their in-group members than to out-group members, which implies a sense of group identity resulting from interactions that required mutual trust. However, the presence of an out-group was necessary to obtain this result.  Brewer (@brewer1979group) reports that the mere presence of an out-group can increase in-group bias, which would lead to stronger group identification. 
+
+#### Hypothesis
+
+H1 Structural Diversity Hypothesis: When adjusted for number of exposures to group members who donate, subjects with higher levels of structural diversity will have a higher likelihood of donating.  In other words, condition 1 will have the highest donation rate, followed by condition 2, then condition 3, then condition 4.  Network structural diversity requires the creation of targeted group cohesion amongst strangers.
+
+#### Study Design and Methodology
+
+This experiment will take place using the CLOSE platform and subjects will be recruited from Amazon Mechanical Turk (AMT). First, subjects will be asked to take part in a survey where they will be asked a set of demographic questions and asked to read three short articles on healthcare, climate change and the student debt crisis. Our goal is to identify the participant’s feelings on these issues as well as their propensity to donate to these issues, both possible confounders in our intervention to study the role of network characteristics. Specific questions we will ask (after the subject has read the articles).
+
+What do you think is the biggest social problem facing America today?   
+A  Healthcare  
+B  Climate Change  
+C  Student Debt  
+D  No opinion  
+
+How many times in the last 3 years have you made a charitable donation?  
+A	0  
+B	1  
+C	2-4  
+D	5 or more  
+
+We will also ask subjects to complete the “Susceptibility to Social Influence – II” questionnaire (the paper with the questionnaire is attached as “modic2014we”. We will use the “short” version.) After the survey we will invite subjects to proceed to the CLOSE platform homepage where they will be introduced to their team.  Subjects will share a team color with the other avatars on their team in order to generate an in-group dynamic. The teammates are introduced as other subjects, but in reality are experimenter controlled agents.
+
+![Figure 1: Mockup of Meeting Team](https://monosnap.com/file/zNgB1njeTHa9SJHZ41YLzVXAScar4m.png)
+
+The decision to donate will be made following a series of coordination games played with avatars designed in order to induce group identity.  In particular, subjects will be assigned to one of four treatment conditions and one control group (Figure 2 and below).
+
+![Figure 2: Conditions](https://monosnap.com/file/aveEg6ssZGqEgaOIBQPc9DXjFOAUAl.png)
+
+Condition 1: Subject interacts with 6 people, each of whom are connected to one another. 6 people donate.  
+Condition 2: Subject interacts with 8 people, each of whom are connected to one another. 2 people donate.   
+Condition 3: Subject interacts with 8 people, none of whom are connected to one another. 6 people donate.  
+Condition 4: Subject interacts with 8 people, none of whom are connected to one another. 2 people donate.  
+Control group: Subject completes task without interacting with others.   
+
+First subjects will complete the group cohesion task, then they will participate in the donation part of the experiment.  
+
+Subjects will play 10 rounds of a coordination game with the other members of their team.  In this game, each group member chooses a number from 1 to 7.
+
+![Figure 3: Coordination Game Screen](https://monosnap.com/file/7BLXtsMni71sim3DeiVziTY5Ma2Qiw.png)
+
+In each round, the lowest number will be identified and the payoff will be determined by the following table:
+
+![Figure 4: Payoff Matrix for Coordination Games](https://monosnap.com/file/cQ33snh3nIR8dLsxDjwhWec4OqsPQd.png)
+
+The higher the minimum number chosen by a group member, the higher the payoff for everyone. So the highest minimum results in the largest payoff. Everyone in the group choosing 7 results in the largest payoff and everyone in the group choosing 1 results in the lowest payoff.
+
+After each subject chooses their number, they will be shown (1) the smallest number chosen in their group, (2) the number each of their group members chose, (3) their payoff for that round, and (5) their accumulated payoffs for the rounds completed so far.
+
+Every 10 “points” they earn will be worth 2 cents.
+
+![Figure 5: Coordination Game - Payoff Shown to Subject](https://monosnap.com/file/4ZUqc4xCZ4eLdFMor8g6Fbe3yTSrjE.png)
+
+Finally, subjects are asked if they would like to donate 50% of their earnings to a non-profit support ending America’s student debt crisis. The message will read:
+
+> “Several of your group members chose to make a donation to an organization supporting ending the student debt crisis. Your decision will shared with your other group members.”
+
+At the bottom of the message, subjects see the names of teammates from the above tasks that have also decided to donate.   Subjects will be given a follow up survey to see if the decision to donate has changed their opinions about college debt.  After the completion of the game, subjects are asked to take a group identity and group trust questionnaire (provided below). 
+
+Note that the money will be returned to the participant after the end of the experiment, and will not actually be donated to the non-profit. Deception will be revealed immediately to subjects after the completion of the experiment. 
+
+![Figure 6: Screen Showing Subject Being Asked To Donate](https://monosnap.com/file/8nxvfTiACSP26JHVeTJnl7IhV1TThg.png)
+
+(2)  List all information to be collected from subjects:   Subjects will be asked basic demographic questions, a set of group identity and group trust questions, and questions about their opinion on America’s student debt crisis._In addition, they will be asked if they will donate some of their earnings to a charity.
+
+Demographic questions:
+
+a What age are you? (answer options will be age ranges).  
+b	What is your household income? (answer options will be in ranges).  
+c	What is your gender?  
+d	What is the highest level of education completed in your household?  
+e	What type of device are you using to complete this task? (answer will range from tablet to desktop computer).  
+f	How big is the screen of the device you are using to complete this task? (answer choices will be standard screen sizes)  
+
+#### Group Identify and Group Trust Questions (modified from @juvina2013reciprocal)
+
+1  How satisfied are you with the overall outcome of the game?  
+1 very dissatisfied  
+2 somewhat dissatisfied  
+3 neutral  
+4 somewhat satisfied  
+5 very satisfied  
+2	How well do you feel your group members cooperated with each other?  
+1 very poorly  
+2 somewhat poorly  
+3 neutral  
+4 somewhat well   
+5 very well  
+3	How trustful are you of your group members?  
+1 very distrustful  
+2 somewhat distrustful  
+3 neutral  
+4 somewhat trustful  
+5 very trustful  
+4	How well do you feel you cooperated with your group members?  
+1 very poorly  
+2 somewhat poorly  
+3 neutral   
+4 somewhat well  
+5 very well  
+5	How trustful of you do you think your group members are?  
+1 very distrustful  
+2 somewhat distrustful  
+3 neutral  
+4 somewhat trustful  
+5 very trustful  
+
+1	How important is belonging to this group to you? (5 point scale, text at 1,3, and 5 marks)  
+a	Not at all important, neutral, very important  
+2	To what extent do you feel attachment to this group? (5 point scale, text at 1,3, and 5 marks)  
+a	No attachment, moderate attachment, much attachment   
+3	How close do you feel to other members of your group? (5 point scale, text at 1,3, and 5 marks)  
+a	Not at all close, moderately close, very close  
+4	How many members of your group have influenced your thoughts and behaviors? (5 point scale, text at 1,3, and 5 marks)  
+a	None, some, most  
+5	How closely to you identify with the other members of your group? (5 point scale, text at 1,3, and 5 marks)  
+a	Not at all, moderately, very  
+6	Is the welfare of your group more or less important than your individual welfare? (5 point scale, text at 1,2,3,4 and 5 marks)   
+a	Significantly more, slightly more, neutral, slightly less, significantly less  
+7	How important is it to you that your group as a whole benefited greatly? (5 point scale, text at 1,2,4, and 5 marks)  
+a	Not important, somewhat important, important, very important  
+8	On a scale form 1 to 5, please rate how closely attached you felt to your group throughout the game. (1 being not at all attached, 5 being extremely attached)  
+9	If you chose to donate, did your group's opinions influence your decision to donate? (5 point scale, text at 1,3,5 marks)  
+a	Not at all, moderately, very.  
+
+#### Student Debt Questions
+
+If nothing is done to address [access to health care/climate change/student debt], how serious of a problem do you think it will be for the United States?
+A very serious   
+B somewhat serious  
+C not so serious  
+D not serious at all  
+
+##### Timeline
+
+Each subject will spend approximately 20-30 minutes on the experiment. We expect to get results from all subjects within a week. Data analysis will take several months. Participants will  have up to two hours to complete the experiment, however we expect the experiment to take approximately 20-30 minutes to complete.
+
+##### Subject Pool and Exclusion Criteria
+
+The subject pool will be workers active on Amazon Mechanical Turk. Subjects should have a “task completion rate” of greater than 95%, which is a standard criteria when submitting tasks to AMT. Participation in the experiments is voluntary and participants may drop out at any time. Participants must be at least 18 years old and US residents (as judged by Amazon Mechanical Turk). Exclusion criteria 1: Subject is not a US resident (as judged by Amazon Mechanical Turk, which requests workers to indicate country of residence and to provide a social security/tax identification number if they are US residents); 2: Subject has a lower than 95% task completion rate – this is to prevent workers who do tasks rapidly and without thought.  Exclusion criteria 3: Participant is less than 18 years old. 
+
+#### Recruitment and Selection
+
+We hope to recruit at least 150 subjects, which we determined through a power analysis (oneway fixed effects analysis of variance (ANOVA) with 4 levels (1 control groups and 3 experimental groups, alpha=0.05). Recruitment will be entirely through Amazon Mechanical Turk.  A “Human Intelligence Task” (HIT) will be posted and responses requested.  The content of the HIT, and the survey instrument, will be provided for approval to the HSB for each experiment. Subjects will earn $1 to $3 dollars, based on their performance. Subjects will be selected through signing up on Amazon Mechanical Turk.  If we have too few subjects, we will put out another HIT for people to sign up for the experiment.
+
+#### Risks and Risk Mitigation
+
+Participants may experience fatigue or boredom when playing games or answering questions but these are expected to be minor and non-threatening.  Participants are told during the consent process that they may withdraw from the study at any time.  There is also a potential risk of a negative reaction when participants find out they were deceived during the experiment and that they were interacting with computer controlled agents. One risk is that demographic information, AMT ID, IP Addresses, and answers to questionnaires are revealed to the general public.  The AMT ID and IP Addresses are only maintained in the raw data set which will not be distributed. The sanitized data set (stripped of AMT ID and IP Address and replaced with a unique study ID) will be used for analysis.
+
+If a participant is fatigued and wishes to withdraw from the experiment, they are free to do so.  As far as the deception aspect, participants will be debriefed following the experiment and will be given the contact information of the project lead.
+
+To mitigate the risk of data disclosure the full data set (including demographic questions and the Amazon Mechanical Turk ID) will only be stored on Sandia work machines (which are on the network) in which the hard drives will be encrypted.  Data to be provided to Princeton University will be stripped of identifying information (e.g., the Amazon Mechanical Turk ID, and the IP address) and will only contain the answers to the questions.  We will use a randomly generated string as a study ID for each participant.  An example string is: eaec53ee-cbf7-11e4-8731-1681e6b88ec1 (technically, we are generating a UUID: http://en.wikipedia.org/wiki/Universally_unique_identifier). The stripped data set will be used for any analysis at Sandia or elsewhere.
+
+#### Personally Identifiable Information
+
+We will be collecting demographic data that will be used to characterize the subject population.  However, the demographic information will be at the aggregate level (i.e., age represented as an interval between 18-25).  Recently it has been shown that users of Amazon Mechanical Turk ID (automatically included in data gathered from AMT) can be considered PII.  We will remove this information and replace it with a study code number.  We will also be collecting the IP address of the subjects. We have to pay subjects appropriately (based on their responses to the questions) and we may use the subjects in this study for future studies.
+
+#### Data Management
+
+All data will be maintained on computers with standard Sandia access protection.  In addition, all data will be backed up to a remote server which is subsequently backed up to tape, per Sandia policy.  The records will also be stored on longer-term tape backups owned and operated by Sandia for purposes of data archiving.  While the PI is in his current center he will maintain all files on his encrypted laptop, which will be backed up as per Sandi policy.  When the PI leaves Sandia, he will place the files on an encrypted hard disk and discuss with his manager the disposition of the data (i.e., who will take care of the data after him).  The hard disk and password to the encryption will be shared with his manager.  The hard disk will be marked indicating that it contains human subject data and thus should not be destroyed.  All possessors of the data (starting with the PI, and his successors) will notify the HSB that they have the data, and thus the 75 year retention requirement can be met by a long chain of Sandians who own the data, as well as the long term tape storage backup that will be maintained._
+
+#### Expected Outcome
+
+We anticipate that participants with more rather than fewer teammates donating to the charity will be more likely to donate to the charity.
