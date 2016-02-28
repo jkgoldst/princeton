@@ -24,7 +24,7 @@ Defense (with Matt OR Ed and two non-readers present) will be sometime between 5
 
 ### Invited Talks
 
-HCI International 2016 (17 July 2016) 
+[HCI International 2016](http://2016.hci.international/) (17 July 2016) - presenting experimental results
 
 
 ### IRB Docs
