@@ -18,7 +18,7 @@ Josh Goldstein is a PhD candidate at Princeton's Woodrow Wilson School of Public
 4/1   -  Submission of Complete Draft (Including Chapters 4 - 5, Experimental Results)  
 5/1   -  Deadline for Round # 2 Edits from Readers  
 5/9   - Final Submission of Dissertation  
-5/31 - Readers Submit Readers Report (https://gradschool.princeton.edu/sites/gradschool/files/ReadersReport.pdf) which I submit along with Degree Application Form ((https://gradschool.princeton.edu/sites/gradschool/files/checklist_phd_defense_0.pdf) to Office of Academic Affairs (two weeks prior to defense)  
+5/31 - Readers Submit [Readers Report](https://gradschool.princeton.edu/sites/gradschool/files/ReadersReport.pdf) which I submit along with [Degree Application Form]((https://gradschool.princeton.edu/sites/gradschool/files/checklist_phd_defense_0.pdf) to Office of Academic Affairs (two weeks prior to defense)  
 Defense (with Matt OR Ed and two non-readers present) will be sometime between 5/31 and 9/9 depending on the availability of the advisors  
 9/24 - Degree Awarded (if Defense Deadline is before 9/9)  
 
