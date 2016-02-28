@@ -22,6 +22,11 @@ Josh Goldstein is a PhD candidate at Princeton's Woodrow Wilson School of Public
 Defense (with Matt OR Ed and two non-readers present) will be sometime between 5/31 and 9/9 depending on the availability of the advisors  
 9/24 - Degree Awarded (if Defense Deadline is before 9/9)  
 
+### Invited Talks
+
+HCI International 2016 (17 July 2016) 
+
+
 ### IRB Docs
 
 IRB docs from Princeton University and Sandia National Labs can be found [here](https://drive.google.com/open?id=0B6tvgUR2lfHKc01BLW9qM3Babk0)
